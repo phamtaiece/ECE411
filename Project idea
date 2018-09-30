@@ -29,5 +29,32 @@ This should be a popular idea? How about create a system that can use GPS to kno
 between 6 pm – 6 am, then turn off?
 
 The best time for me to work on the project is Tuesday after 12:00 pm and Friday? (But I prefer Tuesday)
---------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------
+Sam, let me stumble my way through this transition:
+**************************
+Discount Frequency counter
+**************************
+Use a cheap MCU/DSP to count the peaks of an input signal from 0Hz to 25MHz and output the results to a display.
+Design analog input stage for signal conditioning.
 
+Value:    no cheap (<$50) AC analysis gear exists that works with any real amount of reliability/accuracy, so why not build
+          a cheap version of 1970's bench gear.
+$Value:   ~$20 per board without enclosure
+Timeline: could be an 8-week project for simplified input-stage, additional functionality could be implemented (LCR meter,
+          f-gen, et al.) using extra pins/time or focus on power optimization.
+Bogus:    I have no idea what the minimum SNR of the input would have to be for this to work reliably.
+Bonus:    I already have a broken out dsPIC DSP from microchip that can do this, as well as the programmer/debugger
+          (which can do in-circuit-serial-programming which meets practicum requirements) and done a bunch of groundwork
+          already as I'm doing something similar for VMS, so we could start, like, tomorrow.
+          
+By the end of the term we would each have a pocket sized device that can do simple frequency measuments... or more! Great 
+for parties!
+
+I am free to meet MW <4:40
+                  T  1:00<meet<4:40, or >6:30
+                  R  12:00<meet<4:40, or >6:30
+                  FS All day
+I would rather meet for a shorter amount of time, multiple times a week. That way people who have excess time can continue
+working, and people with obligations go do their thing. That way we are guaranteed to touch base face-to-face multiple times
+a week about our project.
+------------------------------------------------------------------------------------------------------------------------------
