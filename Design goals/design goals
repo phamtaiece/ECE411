@@ -7,5 +7,26 @@ Which is your design goals? Which should be "must-have" or "should-have" or "mig
 What time is your best meeting time and/or shopping time on Saturday?
 Feel free to add more if you need something.
 
-
+*********************************************************************
+Sam's Design Goals:
+  MUST HAVES
+    Pocket sized, at least 2hr battery life
+    accepts input frequency from 0 to 25MHz (pure sine/saw/square)
+    Text display
+    end-user replacable battery
+    end-user expandable (unused pins broken out, reprogrammable MCU)
+    easy to open (on purpose) enclosure
+    Intuitive UI (keypad or DMM style dial)
+    end-user cost (MSRP) <$40
+  NICE TO HAVES
+    Graphical display
+    Absolute capacitance measuring (determine cap values)
+    Vpp and dc-offset measuring
+    Audio frequency FFT
+    Input up to 100MHz  (gross or ugly signal)
+    Internal rechargable battery
+    hard to open (on accident) enclosure
+    replacable input port (in case of failure)
+    end-user cost (MSRP) <$20
+*********************************************************************
 
