@@ -34,6 +34,13 @@ Input frequency: 0 - 50 MHz( wouldn't mind if 25 MHz, but a longer is better)
 Text display (only number is neccessary)
 It has to have a fast response. 
 Reliable result with small uncertainty +/- 1 %
+Some function I recommend: 
+CVref
+OPA/PGA
+ADC high resolution
+IC/OC
+
+
 Shoud:
 Battery is good. But also not very important. it could be powered through USB cable. 
 Inexpensive
