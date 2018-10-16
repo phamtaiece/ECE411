@@ -4,7 +4,6 @@ caused Sam's problem)
 Here is a few questions that we can answer to set our design goals before meeting on Saturday:
 
 Which is your design goals? Which should be "must-have" or "should-have" or "might-have"?
-What time is your best meeting time and/or shopping time on Saturday?
 Feel free to add more if you need something.
 
 *********************************************************************
@@ -29,4 +28,14 @@ Sam's Design Goals:
     replacable input port (in case of failure)
     end-user cost (MSRP) <$20
 *********************************************************************
+Tai's design goals:
+Must
+Input frequency: 0 - 50 MHz( wouldn't mind if 25 MHz, but a longer is better)
+Text display (only number is neccessary)
+It has to have a fast response. 
+Reliable result with small uncertainty +/- 1 %
+
+
+Battery is good. But also not very important. it could be powered through USB cable. 
+Inexpensive
 
