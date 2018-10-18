@@ -46,4 +46,23 @@ Battery is good. But also not very important. it could be powered through USB ca
 Inexpensive
 **I don't really understand the Chip function, so I'm looking for a recommend from you guys.
 
+******************************************************************************
+DESIGN GOALS: -sara
+Must:
+Be mobile and fit in hand
+Be easy to charge, ie: usb charge or replaceable battery
+Fast output
+Prints a text display
+Under 50$ initial cost with ~5$ user replacements(if applicable)  
+Accept a variety of general waveforms 
+Reach the high frequency band 
+|||
+Should:
+Any signal 
+Lit display
+Easy data transfer
+Easily expandable
+
+
+
 
