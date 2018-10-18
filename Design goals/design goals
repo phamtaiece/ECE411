@@ -63,6 +63,24 @@ Lit display
 Easy data transfer
 Easily expandable
 
+********************************************************************************
+Will's Design Requirements
 
+MUST: Count frequency of some simple periodic input and display to an output screen
+      Be small enough to fit on workbench
+      Capture frequency up to 1MHz
+      cost < $40 / board
+      
+SHOULD: Use a common microcontroller such as ATMEGA or PICMICRO
+        Capture frequency up to 20MHz
+        Be ~ 3 cm x 3 cm or smaller
+        cost < $20 / board
+        use simple lcd display
+        have a nice plastic / 3d printed enclosure
+        
+NICE TO HAVE: DSP functionality - report frequency spectrum of sound wave
+              Function generator - generate functions up to 20 MHz as well as detect (reverse functionality)
+              
+              
 
 
