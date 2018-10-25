@@ -31,11 +31,12 @@ System Architecture
 See the picture in this folder
 
 Design Specification
-Use MCP1640 as voltage control regulator.
-Processor is dsPIC33EV256GM102
-Use 5 dc voltage supply or 3 1.5V AAA battery
-Use LED display SSDI1306-LED
-Developement environment:ICSP environment
-Take waveform input signal
 
-
+    Use MCP1640 as voltage control regulator.
+    Processor is dsPIC33EV256GM102
+    Use 3 AA battery
+    Use LED with SSDI1306 IC
+    Developement environment:MPLAB X
+    Take waveform input signal via coax cable
+    Firmware: Bare metal firmware
+    The PCB dimensions will be 68.5 mm x 48.0 mm to match COTS battery holder.
