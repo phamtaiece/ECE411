@@ -1,0 +1,41 @@
+
+Concepts of Operations
+    We are designed a portable frequency counter with an affordable price to help the circuit testing process easier for electrical 
+students. Our intended customers are electrical students or anyone who eager to learn more about electrical circuit design with
+a tight budget. Our frequency counter is design for wide range of user with no experience necessary. Practically, users only 
+need to connect the battery or 5V dc supply to the power supply and connect the signal source to the input. The frequency will 
+be display on the LED screen. 
+
+Brief Market Analysis
+    Our intended customers are basically anyone who is interested in electrical circuit design and who don’t want to spend a huge 
+amount of money to buy a oscilloscope just for frequency measurement. There are so many competitors in the market. However, 
+our design is portable, low power, and accurate, you can literally carry it anywhere you would like to and simple enough for 
+an amateur or plenty of room for improvement for anyone who want to hack our device. The cost of development is small, so we 
+generously ask for $20 which make our device be extremely competitive in the electronic device market. 
+
+Requirements
+  The device must be portable, pocket-size, and friendly- user device, and it lasts at least 2 hours using 3 AAA battery 1.5V.
+  The device must have a fast response and reliable with small uncertainty +/- 1%
+  The device must be able to measure a frequency from 0 – 10 MHz. 
+
+  Something that device should have: 
+    Wide bandwidth 0 – 25 MHz.
+    Accept a variety of waveforms.
+
+  Something that device may have:
+    Internal rechargable battery
+    Tough in accident
+    Easy expandable
+
+System Architecture
+See the picture in this folder
+
+Design Specification
+Use MCP1640 as voltage control regulator.
+Processor is dsPIC33EV256GM102
+Use 5 dc voltage supply or 3 1.5V AAA battery
+Use LED display SSDI1306-LED
+Developement environment:ICSP environment
+Take waveform input signal
+
+
