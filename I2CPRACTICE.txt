@@ -1,0 +1,34 @@
+/*
+ * File:   test.c
+ * Author: will
+ *
+ * Created on October 11, 2018, 3:25 PM
+ * 
+ * From DSPIC33 Timer Reference Manual 
+ * Example 11-4: Initialization Code for 16-bit Synchronous Counter Mode
+ */
+
+
+#include "p33EV256GM102.h"
+#include "i2c.h"
+
+unsigned int config2, config1, config3;
+
+int main(void) {
+    config3 = 0x11;
+    config2 = (I2C1_STOP_COND_INT_DIS & I2C1_START_COND_INT_DIS &
+               I2C1_BUF_OVERWRITE_DIS & I2C1_SDA_HOLD_TIME_SEL_300 &
+               I2C1_SLAVE_BUS_COL_DETECT_DIS & I2C1_ADDR_HOLD_EN &
+               I2C1_DATA_HOLD_DIS);
+    config1 = ( I2C1_ON & I2C1_IDLE_CON & I2C1_CLK_HLD &
+                I2C1_IPMI_DIS & I2C1_7BIT_ADD & 
+                I2C1_SLW_DIS & I2C1_SM_DIS & 
+                I2C1_GCALL_DIS & I2C1_STR_DIS &
+                I2C1_NACK & I2C1_ACK_DIS & I2C1_RCV_DIS &
+                I2C1_STOP_DIS & I2C1_RESTART_DIS & 
+                I2C1_START_DIS);
+    OpenI2C1(config1,config2,config3);
+    IdleI2C1();
+  
+    return 0;
+}
