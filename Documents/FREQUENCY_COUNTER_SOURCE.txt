@@ -1,0 +1,193 @@
+/*
+ * File:   newmainXC16.c
+ * Author: phamt
+ *
+ * Created on October 11, 2018, 2:52 PM
+ */
+
+
+#include "p33EV256GM102.h"
+
+#define BAUDRATE 115200
+#define BRGVAL ((FCAN/BAUDRATE)/4)-1
+#define TRIS_MON _TRISB4
+#define FCAN 40000000
+#define Foscil 80000000
+#define DELAY 50000
+#define U_TX 0x0400
+#define U_ENABLE 0x8008
+
+// Macros for Configuration Fuse Registers 
+_FOSCSEL(FNOSC_PRIPLL);
+_FOSC(FCKSM_CSDCMD & OSCIOFNC_OFF & POSCMD_XT);
+// Startup directly into XT + PLL
+// OSC2 Pin Function: OSC2 is Clock Output
+// Primary Oscillator Mode: XT Crystal
+
+_FWDT(FWDTEN_OFF); // Watchdog Timer Enabled/disabled by user software
+
+_FICD(ICS_PGD2); // PGD3 for external PK3/ICD3/RealIce, use PGD2 for PKOB
+_FPOR(BOREN0_OFF); // no brownout detect
+_FDMT(DMTEN_DISABLE); // no deadman timer <<< *** New feature, important to DISABLE
+
+
+void putU2(char c);
+void InitMonitor(void);
+void oscConfig(void);
+void putsU2(char *s);
+void lcd_number_display(unsigned int count);
+void Timer1init();
+void Timer3init();
+volatile unsigned int counter=0;
+void delayms(int delay);
+unsigned int value=0;
+
+void oscConfig(void)
+{
+
+    // Configure Oscillator to operate the device at 80MHz/40MIPs
+    // Fosc= Fin*M/(N1*N2), Fcy=Fosc/2
+    // Fosc= 8M*40/(2*2)=80Mhz for 8M input clock
+    // To be safe, always load divisors before feedback
+    
+   
+    CLKDIVbits.PLLPOST = 0; // N1=2
+    CLKDIVbits.PLLPRE = 0; // N2=2
+    PLLFBD = 38; // M=(40-2), Fcyc = 40MHz for ECAN baud timer
+
+
+    // Disable Watch Dog Timer
+
+    RCONbits.SWDTEN = 0;
+
+}
+
+
+
+void delayms(int delay){
+
+     T3CONbits.TON = 1;
+    counter=0;
+    while (counter<delay);
+    T3CONbits.TON = 0;
+}
+
+
+void Timer3init()
+{
+    T3CON = 0x00; //Stops the Timer1 and reset control reg.
+    TMR3 = 0x00; //Clear contents of the timer register
+    PR3 = 0x9c40; //Load the Period register with 1mSec counter 
+ IPC2bits.T3IP = 0x01; //Setup Timer1 interrupt for desired priority level
+ // (This example assigns level 1 priority)
+ IFS0bits.T3IF = 0; //Clear the Timer1 interrupt status flag
+ IEC0bits.T3IE = 1; //Enable Timer1 interrupts
+ T3CONbits.TON = 1; //Start Timer1
+       //clock source set to the internal instruction cycle
+    T3CONbits.TCKPS = 0x00;//Divide by 1
+}
+
+
+void Timer1init()
+{
+T1CONbits.TON = 0; // Disable Timer
+T1CONbits.TCS = 1; // Select external clock 
+T1CONbits.TSYNC = 0; // Disable Synchronization
+T1CONbits.TCKPS = 0b00; // Select 1:1 Prescaler
+TMR1 = 0x00; // Clear timer register
+//PR1 = 32767; // Load the period value
+//IPC0bits.T1IP = 0x01; // Set Timer1 Interrupt Priority Level
+//IFS0bits.T1IF = 0; // Clear Timer1 Interrupt Flag
+//IEC0bits.T1IE = 1; // Enable Timer1 interrupt
+T1CONbits.TON = 1; // Start Timer
+}
+
+
+
+
+
+void putU2(char c)
+{
+while ( U2STAbits.UTXBF); // wait while Tx buffer full
+U2TXREG = c;
+} // putU2
+
+
+void putsU2(char *s)
+{
+    while (*s)
+    { // loop until *s =\0, end of string
+        putU2(*s++);
+    } // send the character and point to the next one
+}
+
+
+void InitMonitor(void)
+{
+    // digital output
+    TRIS_MON = 0;
+
+    RPOR1bits.RP36R = 0x03; // map UART2 TXD to pin RB4
+    U2BRG = BRGVAL;
+    U2MODE = U_ENABLE;
+    U2STA = U_TX;
+
+}
+
+
+void lcd_number_display(unsigned int count)
+{
+char a[16]={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+int cnt;
+if(count==0) { cnt=1; }
+
+
+    while(count)
+      {
+  a[cnt++]=(count%10);
+  count=(count/10);
+      }
+
+     while(cnt--)
+     {
+      putsU2((a[cnt]+'0')); //your single character display LCD function [ +'0' means add ascii offset value for display ]
+     }
+
+}
+
+
+
+
+
+
+
+
+int main()
+{
+oscConfig();
+InitMonitor();
+Timer3init();
+Timer1init();
+TRISA = 0xFF00; // all PORTA as output
+
+ while(1){
+    TMR1=0; 
+    delayms(1);
+    lcd_number_display(TMR1);
+    while (U2STAbits.TRMT == 0);
+    U2TXREG = 0x0a;
+    while (U2STAbits.TRMT == 0);
+    U2TXREG = 0x0d; 
+ }
+ return 0;
+}
+
+
+
+
+void __attribute__((__interrupt__, __shadow__)) _T3Interrupt(void)
+{
+/* Interrupt Service Routine code goes here */
+IFS0bits.T3IF = 0;//Reset Timer1 interrupt flag
+counter++;
+}
