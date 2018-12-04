@@ -1,0 +1,169 @@
+/*
+ * File:   newmainXC16.c
+ * Author: phamt
+ *
+ * Created on October 11, 2018, 2:52 PM
+ */
+
+
+#include "p33EV256GM102.h"
+
+
+uint8_t DeviceAddress = 0x3c;
+#define OLED_ADDRESS    0x3c
+
+/*********************************************************************
+* Function:        InitI2C()
+*
+* Input:		None.
+*
+* Output:		None.
+*
+* Overview:		Initialises the I2C(1) peripheral
+*
+* Note:			Sets up Master mode, No slew rate control, 100Khz
+********************************************************************/
+unsigned int InitI2C(void)
+{	
+	//This function will initialize the I2C(1) peripheral.
+	//First set the I2C(1) BRG Baud Rate.
+
+	//Consult the dSPIC Data Sheet for information on how to calculate the
+	//Baud Rate.
+
+	I2C1BRG = 0x004f; 
+
+	//Now we will initialise the I2C peripheral for Master Mode, No Slew Rate
+	//Control, and leave the peripheral switched off.
+	
+	I2C1CON1 = 0x1200;
+	
+	I2C1RCV = 0x0000;
+	I2C1TRN = 0x0000;
+	//Now we can enable the peripheral
+	
+	I2C1CON1 = 0x9200;
+}
+
+
+/*********************************************************************
+* Function:        StartI2C()
+*
+* Input:		None.
+*
+* Output:		None.
+*
+* Overview:		Generates an I2C Start Condition
+*
+* Note:			None
+********************************************************************/
+unsigned int StartI2C(void)
+{
+	//This function generates an I2C start condition and returns status 
+	//of the Start.
+
+	I2C1CON1bits.SEN = 1;		//Generate Start COndition
+	while (I2C1CON1bits.SEN);	//Wait for Start COndition
+	//return(I2C1STATbits.S);	//Optionally return status
+}
+
+
+/*********************************************************************
+* Function:        RestartI2C()
+*
+* Input:		None.
+*
+* Output:		None.
+*
+* Overview:		Generates a restart condition and optionally returns status
+*
+* Note:			None
+********************************************************************/
+unsigned int RestartI2C(void)
+{
+	//This function generates an I2C Restart condition and returns status 
+	//of the Restart.
+
+	I2C1CON1bits.RSEN = 1;		//Generate Restart		
+	while (I2C1CON1bits.RSEN);	//Wait for restart	
+	//return(I2C1STATbits.S);	//Optional - return status
+}
+
+
+/*********************************************************************
+* Function:        StopI2C()
+*
+* Input:		None.
+*
+* Output:		None.
+*
+* Overview:		Generates a bus stop condition
+*
+* Note:			None
+********************************************************************/
+unsigned int StopI2C(void)
+{
+	//This function generates an I2C stop condition and returns status 
+	//of the Stop.
+
+	I2C1CON1bits.PEN = 1;		//Generate Stop Condition
+	while (I2C1CON1bits.PEN);	//Wait for Stop
+	//return(I2C1STATbits.P);	//Optional - return status
+}
+
+
+/*********************************************************************
+* Function:        WriteI2C()
+*
+* Input:		Byte to write.
+*
+* Output:		None.
+*
+* Overview:		Writes a byte out to the bus
+*
+* Note:			None
+********************************************************************/
+unsigned int WriteI2C(unsigned char byte)
+{
+	//This function transmits the byte passed to the function
+	//while (I2C1STATbits.TRSTAT);	//Wait for bus to be idle
+	I2C1TRN = byte;					//Load byte to I2C1 Transmit buffer
+	while (I2C1STATbits.TBF);		//wait for data transmission
+
+}
+
+
+/*********************************************************************
+* Function:        IdleI2C()
+*
+* Input:		None.
+*
+* Output:		None.
+*
+* Overview:		Waits for bus to become Idle
+*
+* Note:			None
+********************************************************************/
+unsigned int IdleI2C(void)
+{
+	while (I2C1STATbits.TRSTAT);		//Wait for bus Idle
+}
+
+
+
+int main()
+{
+    
+    IdleI2C();						//Ensure Module is Idle
+	StartI2C();						//Initiate start condition
+	WriteI2C(0x2a);                 //write 1 byte
+	IdleI2C();
+    StopI2C();
+    while(1){
+        
+        
+    }
+ return 0;
+}
+
+
